@@ -1,0 +1,168 @@
+html, body{
+    max-width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body{
+    /*background-image: url("img/wall.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;*/
+    background-color: #fff;
+}
+
+h1{
+    font-family: 'Trirong', serif;
+    font-size: 7em;
+    text-align: center;
+    color: #fff;
+}
+
+a{
+    font-family: 'Sahitya', serif;
+    text-decoration: none;
+    color: white;
+    font-size: 140%;
+}
+
+label, input{
+    font-family: 'Trykker', serif;
+    font-size: 150%;
+    text-align: center;
+}
+
+.flex-row{
+    display: flex;
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/************************************************ HEADER  ************************************************/
+header{
+    height: 5rem;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(107, 88, 50);
+}
+
+nav{
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+/************************************************ MAIN  ************************************************/
+main{
+    height: fit-content;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/************************************************ INSCRIPTION  ************************************************/
+#form-container{
+    justify-content: center;
+    align-items: center;
+    width: 20em;
+    height: fit-content;
+    padding: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 2px solid black;
+    background-color: rgba(107, 88, 50, 0.69);
+}
+
+input{
+    width: 100%;
+    margin-top: 2%;
+    margin-bottom: 8%;
+    font-size: 100%;
+    border-radius: 25px;
+}
+
+#mybutton{
+    margin-top: 5%;
+    margin-bottom: 0;
+    align-self: center;
+    background-color: #fff;
+    cursor: pointer;
+    width: auto;
+    font-size: 150%;
+    transition: 0.2s;
+}
+
+#mybutton:hover{
+    transform: scale(1.05);
+    transition: 0.5s;
+}
+
+
+/************************************************ ADMIN.PHP  ************************************************/
+#table-container{
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+table{
+    width: 30%;
+    padding: 0.5%;
+    border: 3px solid black;
+}
+
+tr{
+    text-align: center;
+}
+
+th{
+    margin: 10%;
+    height: 5%;
+    font-size: 200%;
+}
+
+td{
+    padding: 1%;
+}
+
+
+
+
+
+/************************************************ FOOTER  ************************************************/
+footer{
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(107, 88, 50);
+}
+
+#git{
+    font-size: 2.5rem;
+    padding-top: 0.1em;
+    color: black;
+    transition: 0.2s;
+}
+
+#git:hover{
+    color: white;
+    transition: 0.7s;
+}
+
+#msgerror{
+    font-size: 1.5em;
+    color: rgb(107, 15, 15);
+    text-align: center;
+}
+
+#msgok{
+    font-size: 80%;
+    color: green;
+    text-align: center;
+}
