@@ -10,7 +10,7 @@
         <!-- Si une Session user est ouverte -->
         <?php } else{?>
             <a href="profil.php">Modifier mon profil</a>
-            <a href="reservation.php">Planning</a>
+            <a href="planning.php">Planning</a>
             <a href="reservation-form.php">Réserver une salle</a>
             <a href="deconnexion.php">Se déconnecter</a>
 

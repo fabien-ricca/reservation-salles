@@ -1,4 +1,105 @@
-<?php  ?><!DOCTYPE html>
+<!----------------------------------------------------------- PHP ------------------------------------------------------------------->      
+<?php include 'include/connect.php';      //On joint la connexion à la base de donnée
+
+    date_default_timezone_set('Europe/Paris');              //On définit le timezone pour avoir le bon fuseau d'horaire
+    $currentDate = date('Y-m-d');                           // On récupère la date et l'heure
+
+    $msgTitre = "";
+    $msgDate = "";
+    $msgHeure = "";
+    $msgDescription = "";
+    $msgReservation = "";
+
+
+
+    if ($_POST != NULL){
+
+        // On récupère les données du formulaire et celles en session
+        $titre = $_POST['titre'];
+        $date = $_POST['date'];
+        $hD = $_POST['hdebut'];
+        $hF = $_POST['hfin'];
+        $description = $_POST['description'];
+        $id_user = $_SESSION['id'];
+        $testDay = date('l', strtotime($date));
+        
+        
+        // Si le titre n'est pas vide et fait plus de 10 caractères
+        if($titre != NULL && strlen($titre) >= 5){
+            
+            // Si la date cactuelle n'est pas superieur à la date choisie
+            if($currentDate <= $date){
+                
+                // On vérifie que la date choisie ne soit ni un samedi ni un dimanche
+                if($testDay != "Saturday" && $testDay != "Sunday"){
+
+                    // Si la description n'es pas vide et fait plus de  caractères
+                    if($description != NULL && strlen($description) >= 10){
+                            
+                            // Si l'heure de fin n'est pas inferieure que l'heure de début
+                    if((int)$hF > (int)$hD){
+                        $hdebut = $date . ' ' . $hD . ':00' . ':00';
+                        
+                        // On vérifie si les horaires sont disponibles
+                        $checkDate = true;
+                        for($i=0; isset($reserv[$i][3]); $i++){
+                            if($reserv[$i][3] === $hdebut){
+                                $checkDate = false;
+                                break;
+                            }
+                        }
+
+                        // S'ils sont disponibles
+                        if($checkDate){
+                            // Si la réservation fait plusieurs heures, on réserve autant de réneaux d'1h
+                            for($i=$hD; $i<$hF; $i++){
+                                $hdebut = $date . ' ' . $i . ':00' . ':00';
+                                $inter = $i + 1;
+                                $hfin = $date . ' ' . $inter . ':00' . ':00'; 
+
+                                $request3 = $mysqli->query("INSERT INTO `reservations`(`titre`, `description`, `debut`, `fin`, `id_user`) VALUES ('$titre', '$description', '$hdebut', '$hfin', '$id_user')");
+                                $msgReservation = "<p id='msgok'> Votre réservation a bien été prise en compte</p>";
+                            }
+                        }
+                        else{
+                            $msgHeure = "<p id='msgerror'>!! Les horaires souhaités ne sont pas disponibles !!</p>";
+                        }
+                    }
+                    else{
+                        $msgHeure = "<p id='msgerror'>!! Les horaires souhaités ne sont pas disponibles !!</p>";
+                    }
+                    }
+                    else{
+                        $msgDescription = "<p id='msgerror'>!! La description est trop courte !!</p>";
+                    }
+                }
+                else{
+                    $msgDate = "<p id='msgerror'>!! La salle n'est pas disponible le Week-end !!</p>";
+                }
+            }
+            else{
+                $msgDate = "<p id='msgerror'>!! La date choisie n'est pas disponible !!</p>";
+            }
+        }
+        else{
+            $msgTitre = "<p id='msgerror'>!! Le titre est trop court !!</p>";
+        }
+    }
+
+
+
+    
+
+
+
+
+?>
+<!----------------------------------------------------------------------------------------------------------------------------------->  
+
+
+
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -13,85 +114,7 @@
 </head>
 <body>
     <header><?php include 'include/header.php' ?></header>
-
     <main class="flex-row">
-
-<!----------------------------------------------------------- PHP ------------------------------------------------------------------->      
-
-    <?php 
-        include 'include/connect.php';      //On joint la connexion à la base de donnée
-
-        date_default_timezone_set('Europe/Paris');              //On définit le timezone pour avoir le bon fuseau d'horaire
-        $currentDate = date('Y-m-d');                           // On récupère la date et l'heure
-
-        $msgTitre = "";
-        $msgDate = "";
-        $msgHeure = "";
-        $msgDescription = "";
-        $msgReservation = "";
-
-        if ($_POST != NULL){
-            $titre = $_POST['titre'];                 // On récupère le login saisi
-            $date = $_POST['date'];
-            $hdebut = $_POST['hdebut'];
-            $hfin = $_POST['hfin'];
-            $description = $_POST['description'];
-            $id_user = $_SESSION['id'];
-
-            $checkTitre = false;
-            $checkDate = false;
-            $checkHeure = false;
-            $checkDescription = false;
-            
-
-            if($titre != NULL && strlen($titre) >= 5){
-                echo "titre OK<br>";
-                $checkTitre = true;
-            }
-            else{
-                $msgTitre = "<p id='msgerror'>!! Le titre est trop court !!</p>";
-            }
-
-            if($currentDate <= $date){
-                $checkDate = true;
-            }
-            else{
-                $msgDate = "<p id='msgerror'>!! La date choisie n'est pas disponible !!</p>";
-            }
-    
-            if((int)$hfin > (int)$hdebut){
-                $checkHeure = true;
-                $hdebut = $currentDate . ' ' . $hdebut . ':00';
-                $hfin = $currentDate . ' ' . $hfin . ':00'; 
-                //echo $hdebut . '<br>';
-                //echo $hfin . '<br>';
-            }
-            else{
-                $msgHeure = "<p id='msgerror'>!! Les horaires souhaités ne sont pas disponibles !!</p>";
-            }
-            
-            if($description != NULL && strlen($description) >= 10){
-                $checkDescription = true;
-            }
-            else{
-                $msgDescription = "<p id='msgerror'>!! La description est trop courte !!</p>";
-            }
-
-            if($checkTitre && $checkDate && $checkHeure && $checkDescription){
-                $request = $mysqli->query("INSERT INTO `reservations`(`titre`, `description`, `debut`, `fin`, `id_user`) VALUES ('$titre', '$description', '$hdebut', '$hfin', '$id_user')");
-                $msgReservation = "<p id='msgok'> Votre réservation a bien été prise en compte</p>";
-            }
-
-            
-        }
-
-        
-
-    ?>
-<!----------------------------------------------------------------------------------------------------------------------------------->  
-        
-
-
             <div class="flex-column" id="form-container">
                 <h2>Formulaire de réservation</h2>
                 <form Method="POST" class="flex-column">

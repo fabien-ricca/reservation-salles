@@ -39,7 +39,7 @@
             if($login){
                 // On vérifie que le Login n'existe pas, Si oui on créé le message d'erreur et on sort de la boucle
                 foreach($users as $user){
-                    if($user[0] === $login){                        
+                    if($user[1] === $login){                        
                         $msgError = "<p id='msgerror'>!! Le pseudo " . $login . ' est déjà utilisé !!</p>';
                         $testLogin = false;
                         break;

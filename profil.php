@@ -24,20 +24,9 @@
         // On vérifie l'ancien mot de passe (Aucune modification ne sera effectuée si le mdp n'est pas correct)
         if(password_verify($password, $_SESSION['password'])){
             
-            // On vérifie si le contenue du champ est différent à l'information en BDD, si oui on le modifie et on déconnecte
-            if($nom != $_SESSION['nom']){
-                    $request = $mysqli->query("UPDATE `utilisateurs` SET nom='$nom' WHERE login='$sessionLogin'");
-                    header('location: deconnexion.php');
-            }
-
-            // On vérifie si le contenue du champ est différent à l'information en BDD, si oui on le modifie et on déconnecte
-            if($prenom != $_SESSION['prenom']){
-                $request = $mysqli->query("UPDATE `utilisateurs` SET prenom='$prenom' WHERE login='$sessionLogin'");
-                header('location: deconnexion.php');
-            }
-
             // On vérifie si les deux mdp sont identiques
             if($newPassword === $confNewPassword){
+                
                 //On vérifie si le mdp est validée par la regex, si oui on le crypte et on le modifie et on déconnecte
                 if(preg_match($password_regex, $newPassword)){
                     $cryptPassword = password_hash($newPassword, PASSWORD_BCRYPT);
@@ -54,7 +43,7 @@
                 if($login != $sessionLogin){
                     // On vérifie s'il existe, si oui on pass $testLogin à false
                     foreach($users as $user){
-                        if($user[0] === $login){                        
+                        if($user[1] === $login){                        
                             $msgError = "<p id='msgerror'>!! Le pseudo " . $login . ' est déjà utilisé !!</p>';
                             $testLogin = false;
                             break;

@@ -106,7 +106,7 @@ input{
 
 /************************************************ ADMIN.PHP  ************************************************/
 #table-container{
-    width: 100%;
+    width: 80vw;
     height: 100%;
     align-items: center;
     justify-content: center;
@@ -125,11 +125,13 @@ tr{
 th{
     margin: 10%;
     height: 5%;
-    font-size: 200%;
+    border: 2px solid black;
+    font-size: 1em;
 }
 
 td{
     padding: 1%;
+    border: 2px solid black;
 }
 
 
