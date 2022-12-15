@@ -74,18 +74,22 @@
 
                                         // Dans chaque cellule
                                         // On compare chaque creneau avec la BDD
+                                        $checkCreneau = false;
                                         for($x=0; isset($reserv[$x][3]); $x++){
                                             $date = date('l H:i', strtotime($reserv[$x][3]));
 
                                             // Si correspondance
                                             if($creneau == $date){
-                                                echo '<td>' . $reserv[$x][1] . '<br>' . $reserv[$x][2] . '</td>';
+                                                $checkCreneau = true;
                                                 break;
                                             }
-                                            else{
-                                                echo '<td>' . $creneau . '</td>';
-                                                break;
-                                            }
+                                        }
+                                        
+                                        if($checkCreneau){
+                                            echo "<td id='reserv'>" . $reserv[$x][1] . '<br>' . $reserv[$x][2] . '</td>';
+                                        }
+                                        else{
+                                            echo "<td id='dispo'>" . $creneau . '</td>';
                                         }
                                     }
 
