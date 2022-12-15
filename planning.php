@@ -1,24 +1,5 @@
 <?php include 'include/connect.php'; ?>
 
-<?php 
-    $semaine=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-
-     // Dans chaque cellule
-    // On compare chaque creneau avec la BDD
-    /*for($a=0; isset($semaine[$a]); $a++){
-        for($x=0; isset($reserv[$x][3]); $x++){
-            $date = date('l', strtotime($reserv[$x][3]));
-
-            // Si correspondance
-            if($semaine[$a] == $date){
-                echo $date . '<br>';
-                echo $reserv[$x][1] . '<br>' . $reserv[$x][2] . '<br>';
-                break;
-            }
-        }
-    }*/
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -64,32 +45,35 @@
                                     $j = '0' . $j;
                                 }
                                 // On remplit la première cellule de chaque ligne par HH:00
-                                $heure = '<th>' . $j . ':00' . '<br>' . $j+1 . ':00' . '</th>';
+                                $heure = '<th>' . $j . ':00';
                                 echo '<tr>';
                                     echo $heure;
                                 
                                     // On rempli les autres cellules par Jour + Heure    
                                     for($k=0; isset($semaine[$k]); $k++){
                                         $creneau = $semaine[$k] . ' ' . $j . ':00';
-
+                                        
+                                        // On initie checkCreneau sur false
                                         // Dans chaque cellule
                                         // On compare chaque creneau avec la BDD
                                         $checkCreneau = false;
                                         for($x=0; isset($reserv[$x][3]); $x++){
                                             $date = date('l H:i', strtotime($reserv[$x][3]));
 
-                                            // Si correspondance
+                                            // Si correspondance, on passe chsckCreneau sur true
                                             if($creneau == $date){
                                                 $checkCreneau = true;
                                                 break;
                                             }
                                         }
                                         
+                                        // Si le créneau est occupé on récupère son titre et sa description
                                         if($checkCreneau){
-                                            echo "<td id='reserv'>" . $reserv[$x][1] . '<br>' . $reserv[$x][2] . '</td>';
+                                            echo "<td id='resa'>" . $reserv[$x][1] . '<br>' . $reserv[$x][2] . '</td>';
                                         }
+                                        // Sinon on affiche un bouton
                                         else{
-                                            echo "<td id='dispo'>" . $creneau . '</td>';
+                                            echo "<td id='dispo'>" . "<a href='reservation-form.php'><button id='reserver'>Réserver ce créneau</button></a>" . '</td>';
                                         }
                                     }
 

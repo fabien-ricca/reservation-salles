@@ -8,9 +8,9 @@ html, body{
 }
 
 body{
-    /*background-image: url("img/wall.jpg");
+    background-image: url("img/wall.jpg");
     background-repeat: no-repeat;
-    background-size: cover;*/
+    background-size: cover;
     background-color: #fff;
 }
 
@@ -114,8 +114,9 @@ input{
 
 table{
     width: 30%;
+    margin: 2em;
     padding: 0.5%;
-    border: 3px solid black;
+    background-color: rgba(255, 255, 255, 0.73);
 }
 
 tr{
@@ -123,19 +124,32 @@ tr{
 }
 
 th{
-    margin: 10%;
-    height: 5%;
     border: 2px solid black;
-    font-size: 1em;
+    font-size: 1.3em;
 }
 
 td{
-    padding: 1%;
+    padding: 0.3em;
     border: 2px solid black;
 }
 
-#reserv{
+#resa{
     background-color: green;
+}
+
+#reserver{
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.7em;
+    background-color: rgb(253, 177, 37);
+    transition: 0.5s;
+}
+
+#reserver:hover{
+    transform: scale(1.04);
+    background-color: rgb(107, 88, 50);
+    color: white;
+    transition: 0.2s;
 }
 
 
