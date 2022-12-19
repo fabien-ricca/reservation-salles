@@ -1,4 +1,4 @@
-<?php include 'include/connect.php'; ?>
+<?php include 'include/connect.php';      //On joint la connexion à la base de donnée ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -11,7 +11,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Sahitya:wght@700&family=Trirong:wght@600&family=Trykker&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
-        <title>Planning</title>
+        <title>Planning2</title>
     </head>
     <body>
         <header><?php include 'include/header.php' ?></header>
@@ -23,10 +23,13 @@
                         <th>Jour /<br>Heure</th>
 
                         <?php 
-                            // On créé une liste des jours de la semaine et on génère la première ligne du tableau en la parcourant
-                            $semaine=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-                            for($i=0; isset($semaine[$i]); $i++){
-                                echo '<th>' . $semaine[$i] . '</th>';
+                            // On créé une currentDate en partant de "ce lundi"
+                            $currentDate = date('l d F', strtotime('this week monday'));
+
+                            // On génère la première ligne des dates en rajoutant à chaque tour + 1 jour
+                            for($i=0; $i<5; $i++){
+                                echo '<th>' . $currentDate . '</th>';
+                                $currentDate = date('l d F', strtotime($currentDate . '+1 day'));
                             }
                         ?>
                     </tr>
@@ -40,28 +43,30 @@
                             // le jour en cours + l'heure du créneau en cours
                             for ($j=8; $j<19; $j++){
 
-                                // Je rajoute un '0' devant l'heure pour faciliter la comparaison
+                                // On rajoute un '0' devant l'heure pour faciliter la comparaison
                                 if ($j === 8 || $j === 9){
                                     $j = '0' . $j;
                                 }
-                                // On remplit la première cellule de chaque ligne par HH:00
-                                $heure = '<th>' . $j . ':00';
+                               
                                 echo '<tr>';
+                                    // On remplit la première cellule de chaque ligne par HH:00
+                                    $heure = '<th>' . $j . ':00' . '</th>';
                                     echo $heure;
                                 
-                                    // On rempli les autres cellules par Jour + Heure    
-                                    for($k=0; isset($semaine[$k]); $k++){
-                                        $creneau = $semaine[$k] . ' ' . $j . ':00';
+                                    // On rempli les autres cellules par creneau (currentDate + Heure)
+                                    $currentDate = date('l d F', strtotime('this week monday'));
+                                    for($k=0; $k<5; $k++){
+                                        $creneau = $currentDate . ' ' . $j . ':00';
                                         
                                         // On initie checkCreneau sur false
-                                        // Dans chaque cellule
-                                        // On compare chaque creneau avec la BDD
+                                        // Dans chaque cellule on compare chaque creneau avec la BDD
                                         $checkCreneau = false;
                                         for($x=0; isset($reserv[$x][3]); $x++){
-                                            $date = date('l H:i', strtotime($reserv[$x][3]));
+                                            $hdebut = date('l d F H:i', strtotime($reserv[$x][3]));
+                                            $hfin = date('l d F H:i', strtotime($reserv[$x][4]));
 
                                             // Si correspondance, on passe chsckCreneau sur true
-                                            if($creneau == $date){
+                                            if($creneau >= $hdebut && $creneau < $hfin){
                                                 $checkCreneau = true;
                                                 break;
                                             }
@@ -69,13 +74,15 @@
                                         
                                         // Si le créneau est occupé on récupère son titre et sa description
                                         if($checkCreneau){
-                                            //echo "<td id='resa'>" . $reserv[$x][1] . '<br>' . $reserv[$x][2] . '</td>';
-                                            echo "<td id='resa'><a href='reservation.php?id=" . $reserv[$x][0] . "'>" . $reserv[$x][1] . '<br>' . $reserv[$x][2] . "</a></td>";
+                                            echo "<td id='resa'><a href='reservation.php?id=" . $reserv[$x][0] . "'>" . $reserv[$x][1] . "</a></td>";
                                         }
                                         // Sinon on affiche un bouton
                                         else{
                                             echo "<td id='dispo'>" . "<a href='reservation-form.php'><button id='reserver'>Réserver ce créneau</button></a>" . '</td>';
                                         }
+
+                                        // On rajoute 1 jour qàa la currentDate
+                                        $currentDate = date('l d F', strtotime($currentDate . '+1 day'));
                                     }
 
                                 echo '</tr>';

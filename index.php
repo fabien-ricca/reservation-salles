@@ -1,6 +1,6 @@
 <?php include 'include/connect.php'; ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,12 +17,11 @@
 
     <main class="flex-row">
 
-    <?php if(!isset($_SESSION['login'])){ ?>
-        <h1>Welcome</h1>
+        <?php if(!isset($_SESSION['login'])){ ?>
+            <h1>Welcome</h1>
 
-    <?php } else{?>
-        <h1><?php echo 'Un plaisir de vous revoir ' . $_SESSION['login'] ?></h1>
-    <?php } ?>
+        <?php } else{?>
+            <h1><?= 'Un plaisir de vous revoir ' . $_SESSION['login'];} ?></h1>
 
         
     </main>

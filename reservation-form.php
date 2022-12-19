@@ -1,6 +1,7 @@
 <!----------------------------------------------------------- PHP ------------------------------------------------------------------->      
 <?php include 'include/connect.php';      //On joint la connexion à la base de donnée
 
+    // Il faut être connecté pour avoir accés à cette page
     if($_SESSION['login'] === NULL){
         header('location: connexion.php');
     }
@@ -8,6 +9,7 @@
     date_default_timezone_set('Europe/Paris');              //On définit le timezone pour avoir le bon fuseau d'horaire
     $currentDate = date('Y-m-d');                           // On récupère la date et l'heure
 
+    // On initialise les différents messages d'erreurs
     $msgTitre = "";
     $msgDate = "";
     $msgHeure = "";
@@ -28,7 +30,7 @@
         $testDay = date('l', strtotime($date));
         
         
-        // Si le titre n'est pas vide et fait plus de 10 caractères
+        // Si le titre n'est pas vide et fait plus de 5 caractères
         if($titre != NULL && strlen($titre) >= 5){
             
             // Si la date cactuelle n'est pas superieur à la date choisie
@@ -40,51 +42,56 @@
                     // Si la description n'es pas vide et fait plus de  caractères
                     if($description != NULL && strlen($description) >= 10){
                             
-                            // Si l'heure de fin n'est pas inferieure que l'heure de début
-                    if((int)$hF > (int)$hD){
-                        $hdebut = $date . ' ' . $hD . ':00' . ':00';
-                        
-                        // On vérifie si les horaires sont disponibles
-                        $checkDate = true;
-                        for($i=0; isset($reserv[$i][3]); $i++){
-                            if($reserv[$i][3] === $hdebut){
-                                $checkDate = false;
-                                break;
+                        // Si l'heure de fin n'est pas inferieure que l'heure de début
+                        if((int)$hF > (int)$hD){
+                            $hdebut = $date . ' ' . $hD . ':00' . ':00';
+                            $hfin = $date . ' ' . $hF . ':00' . ':00';
+                            
+                            // On vérifie si les horaires sont disponibles
+                            $checkDate = true;
+                            for($i=0; isset($reserv[$i][3]); $i++){
+                                if($reserv[$i][3] === $hdebut){
+                                    $checkDate = false;
+                                    break;
+                                }
                             }
-                        }
 
-                        // S'ils sont disponibles
-                        if($checkDate){
-                            // Si la réservation fait plusieurs heures, on réserve autant de réneaux d'1h
-                            for($i=$hD; $i<$hF; $i++){
-                                $hdebut = $date . ' ' . $i . ':00' . ':00';
-                                $inter = $i + 1;
-                                $hfin = $date . ' ' . $inter . ':00' . ':00'; 
-
-                                $request3 = $mysqli->query("INSERT INTO `reservations`(`titre`, `description`, `debut`, `fin`, `id_user`) VALUES ('$titre', '$description', '$hdebut', '$hfin', '$id_user')");
+                            // S'ils sont disponibles
+                            if($checkDate){
+                                $requestInsert = $mysqli->query("INSERT INTO `reservations`(`titre`, `description`, `debut`, `fin`, `id_user`) VALUES ('$titre', '$description', '$hdebut', '$hfin', '$id_user')");
                                 $msgReservation = "<p id='msgok'> Votre réservation a bien été prise en compte</p>";
                             }
+
+                            //Sinon message d'erreur
+                            else{
+                                $msgHeure = "<p id='msgerror'>!! Les horaires souhaités ne sont pas disponibles !!</p>";
+                            }
                         }
+                        
+                        //Sinon message d'erreur
                         else{
                             $msgHeure = "<p id='msgerror'>!! Les horaires souhaités ne sont pas disponibles !!</p>";
                         }
                     }
-                    else{
-                        $msgHeure = "<p id='msgerror'>!! Les horaires souhaités ne sont pas disponibles !!</p>";
-                    }
-                    }
+
+                    //Sinon message d'erreur
                     else{
                         $msgDescription = "<p id='msgerror'>!! La description est trop courte !!</p>";
                     }
                 }
+
+                //Sinon message d'erreur
                 else{
                     $msgDate = "<p id='msgerror'>!! La salle n'est pas disponible le Week-end !!</p>";
                 }
             }
+            
+            //Sinon message d'erreur
             else{
                 $msgDate = "<p id='msgerror'>!! La date choisie n'est pas disponible !!</p>";
             }
         }
+        //Sinon message d'erreur
         else{
             $msgTitre = "<p id='msgerror'>!! Le titre est trop court !!</p>";
         }
@@ -106,7 +113,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sahitya:wght@700&family=Trirong:wght@600&family=Trykker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Réservation</title>
+    <title>Réserver</title>
 </head>
 <body>
     <header><?php include 'include/header.php' ?></header>

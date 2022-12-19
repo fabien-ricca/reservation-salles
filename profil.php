@@ -1,12 +1,13 @@
 <?php   include 'include/connect.php'; //On joint la connexion à la base de donnée
-        
+    
+    // Si aucune session n'existe on redirige vers l'index
     if($_SESSION['login'] === NULL){
         header('location: index.php');
     } ?>
 
 
 <?php 
-    $msgError = "";         //Création de la variable qui contiendra le message d'erreur du mdp
+    $msgError = "";         //Création de la variable qui contiendra le message d'erreur
 
     if ($_POST != NULL){
         $login=htmlspecialchars($_POST['login']);                 // On récupère le login saisi
@@ -41,6 +42,7 @@
 
                 //Si le login est différent de celui de la Session
                 if($login != $sessionLogin){
+
                     // On vérifie s'il existe, si oui on pass $testLogin à false
                     foreach($users as $user){
                         if($user[1] === $login){                        
@@ -57,23 +59,22 @@
                 }
 
             }
+
             // Sinon message d'erreur
             else{
                 $msgError = "<p id='msgerror'> !! Les mots de passe ne sont pas identiques !!</p>";
             }
-
         }
+
         // Sinon message d'erreur
         else{
             $msgError = "<p id='msgerror'> !! Le mot de passe est incorectes !!</p>";
         }
-
-
     }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -83,7 +84,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Sahitya:wght@700&family=Trirong:wght@600&family=Trykker&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
-        <title><?php echo $_SESSION['login'] ?></title>
+        <title><?= $_SESSION['login'] ?></title>
     </head>
     <body>
         <header><?php include 'include/header.php' ?></header>

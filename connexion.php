@@ -1,17 +1,16 @@
-<!----------------------------------------------------------- PHP ------------------------------------------------------------------->      
-
 <?php include 'include/connect.php';      //On joint la connexion à la base de donnée
     
     $loginError = "";       //Création de la variable qui contiendra le message d'erreur du login
 
     if ($_POST != NULL){
         $login=htmlspecialchars($_POST['login']);                 // On récupère le login saisi
-        $password=htmlspecialchars($_POST['password']);           // On récupère le premier mdp saisi
+        $password=htmlspecialchars($_POST['password']);           // On récupère le mdp saisi
         
-        $testConnexion = false;          // On crée le booléen pour le test du login
+        $testConnexion = false;          // On crée le booléen pour le test de connexion
         
         // On vérifie chaque login de la BDD
         for($i=0; isset($users[$i]); $i++){
+            
             //Si les login correspondent et que les mdp correspondent
             if($users[$i][1] === $login && password_verify($password, $users[$i][2])){
                 $testConnexion = true;                  // On passe sur true
@@ -22,20 +21,21 @@
             }
         }
 
-        // Si $testConnexion est true : la connexion est ok
+        // Si $testConnexion est true on redirige vers l'index
         if($testConnexion){
             header("location: index.php"); 
         }
-        // Si $testConnexion est false : connexion échouée
+
+        // Si $testConnexion est false on affiche le message d'erreur
         else{
             $loginError = "<p id='msgerror'>Nom d'utilisateur ou mot de passe incorrect.</p>";
         }
     }
 ?>
-<!----------------------------------------------------------------------------------------------------------------------------------->
+
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
