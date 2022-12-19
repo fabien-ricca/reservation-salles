@@ -1,6 +1,10 @@
 <!----------------------------------------------------------- PHP ------------------------------------------------------------------->      
 <?php include 'include/connect.php';      //On joint la connexion à la base de donnée
 
+    if($_SESSION['login'] === NULL){
+        header('location: connexion.php');
+    }
+
     date_default_timezone_set('Europe/Paris');              //On définit le timezone pour avoir le bon fuseau d'horaire
     $currentDate = date('Y-m-d');                           // On récupère la date et l'heure
 
@@ -85,14 +89,6 @@
             $msgTitre = "<p id='msgerror'>!! Le titre est trop court !!</p>";
         }
     }
-
-
-
-    
-
-
-
-
 ?>
 <!----------------------------------------------------------------------------------------------------------------------------------->  
 

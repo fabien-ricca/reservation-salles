@@ -61,8 +61,6 @@
 
                     <input type="submit" id="mybutton" value="Se connecter">
                     <?php echo $loginError; ?>
-                    
-                    <p>Mot de passe admin : Admin@!!123</p>
                 </form>
             </div>
             

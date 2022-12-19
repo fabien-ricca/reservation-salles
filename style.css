@@ -21,13 +21,6 @@ h1{
     color: #fff;
 }
 
-a{
-    font-family: 'Sahitya', serif;
-    text-decoration: none;
-    color: white;
-    font-size: 140%;
-}
-
 label, input{
     font-family: 'Trykker', serif;
     font-size: 150%;
@@ -57,6 +50,13 @@ nav{
     justify-content: space-evenly;
 }
 
+nav a{
+    font-family: 'Sahitya', serif;
+    text-decoration: none;
+    color: white;
+    font-size: 140%;
+}
+
 /************************************************ MAIN  ************************************************/
 main{
     height: fit-content;
@@ -66,7 +66,7 @@ main{
 }
 
 
-/************************************************ INSCRIPTION  ************************************************/
+/************************************************ INSCRIPTION.PHP  ************************************************/
 #form-container{
     justify-content: center;
     align-items: center;
@@ -104,7 +104,7 @@ input{
 }
 
 
-/************************************************ ADMIN.PHP  ************************************************/
+/************************************************ PLANNING.PHP  ************************************************/
 #table-container{
     width: 80vw;
     height: 100%;
@@ -117,6 +117,11 @@ table{
     margin: 2em;
     padding: 0.5%;
     background-color: rgba(255, 255, 255, 0.73);
+}
+
+table a{
+    color: black;
+    font-size: 1.3em;
 }
 
 tr{
@@ -146,13 +151,42 @@ td{
 }
 
 #reserver:hover{
-    transform: scale(1.04);
     background-color: rgb(107, 88, 50);
     color: white;
     transition: 0.2s;
 }
 
 
+
+/************************************************ RESERVATION.PHP  ************************************************/
+#reservation{
+    width: fit-content;
+    padding: 1em;
+    margin: 1em;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(119, 89, 31, 0.61);
+    border: 2px black solid;
+    line-height: 1em;
+}
+
+#reservation h2{
+    text-align: center;
+    font-family: 'Trykker', serif;
+    font-size: 2em;
+    line-height: 1.5em;
+}
+
+#text{
+    font-family: 'Trykker', serif;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#text1{
+    font-family: 'Trykker', serif;
+    font-size: 1.2em;
+}
 
 /************************************************ FOOTER  ************************************************/
 footer{
