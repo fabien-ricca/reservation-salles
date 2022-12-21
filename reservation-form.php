@@ -21,17 +21,17 @@
     if ($_POST != NULL){
 
         // On récupère les données du formulaire et celles en session
-        $titre = $_POST['titre'];
+        $titre = htmlspecialchars($_POST['titre'], ENT_QUOTES);
         $date = $_POST['date'];
         $hD = $_POST['hdebut'];
         $hF = $_POST['hfin'];
-        $description = $_POST['description'];
+        $description = htmlspecialchars($_POST['description'], ENT_QUOTES);
         $id_user = $_SESSION['id'];
         $testDay = date('l', strtotime($date));
         
         
         // Si le titre n'est pas vide et fait plus de 5 caractères
-        if($titre != NULL && strlen($titre) >= 5){
+        if($titre != NULL && strlen($titre) >= 3 && strlen($titre) <= 20){
             
             // Si la date cactuelle n'est pas superieur à la date choisie
             if($currentDate <= $date){
@@ -40,7 +40,7 @@
                 if($testDay != "Saturday" && $testDay != "Sunday"){
 
                     // Si la description n'es pas vide et fait plus de  caractères
-                    if($description != NULL && strlen($description) >= 10){
+                    if($description != NULL && strlen($description) >= 10 && strlen($description) <= 50){
                             
                         // Si l'heure de fin n'est pas inferieure que l'heure de début
                         if((int)$hF > (int)$hD){
@@ -76,7 +76,7 @@
 
                     //Sinon message d'erreur
                     else{
-                        $msgDescription = "<p id='msgerror'>!! La description est trop courte !!</p>";
+                        $msgDescription = "<p id='msgerror'>!! La description doit comporter entre 10 et 50 caractères !!</p>";
                     }
                 }
 
@@ -93,7 +93,7 @@
         }
         //Sinon message d'erreur
         else{
-            $msgTitre = "<p id='msgerror'>!! Le titre est trop court !!</p>";
+            $msgTitre = "<p id='msgerror'>!! Le titre doit comporter entre 5 et 20 caractères !!</p>";
         }
     }
 ?>
@@ -122,7 +122,7 @@
                 <h2>Formulaire de réservation</h2>
                 <form Method="POST" class="flex-column">
                     <label for="titre">Titre :</label>
-                    <input type="text" name="titre" id="titre" placeholder="Min. 5 caractères">
+                    <input type="text" name="titre" id="titre" placeholder="Entre 5 et 20 caractères">
                     <?= $msgTitre ?>
 
                     <label for="date">Début de la réservation :</label>
@@ -163,7 +163,7 @@
                     <?= $msgHeure ?>
 
                     <label for="description">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="10" placeholder="Min. 10 caractères"></textarea>
+                    <textarea name="description" id="description" cols="30" rows="10" placeholder="Min. 10 caractères et Max. 50"></textarea>
                     <?= $msgDescription ?>
 
                     <input type="submit" id="mybutton" value="Réserver" >

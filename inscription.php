@@ -14,7 +14,7 @@
         $testPassword = false;      // On crée le boléen pour le test du mdp
 
         
-        if($login){
+        if($login && strlen($login) >= 5){
             // On vérifie que le Login n'existe pas, Si oui on créé le message d'erreur, on passe sur false et on sort de la boucle
             foreach($users as $user){
                 if($user[1] === $login){                        
@@ -32,8 +32,8 @@
                 }
                 // Sinon message d'erreur
                 else{
-                    $msgError = "<p id='msgerror'> !! Le mot de passe doit contenir au moins 8 cractères dont
-                    1 lettre majuscule, 1 lettre minuscule et 1 chiffre!! </p>";
+                    $msgError = "<p id='msgerror'> !! Le mot de passe doit contenir au moins 8 caractères, dont
+                    1 lettre majuscule, 1 lettre minuscule, 1 caractère spéciale et 1 chiffre!! </p>";
                 }
             }
             // Sinon message d'erreur
@@ -76,13 +76,16 @@
             <div class="flex-row" id="form-container">
                 <form action="" Method="POST" class="flex-column">
                     <label for="login">Nom d'utilisateur</label>
-                    <input type="text" id="login" name="login" >
-
+                    <input type="text" id="login" name="login" placeholder="Min. 5 caractères" >
+					
                     <label for="password">Mot de passe</label>
                     <input type="password" id="password" name="password" >
 
                     <label for="confpassword">Confirmation</label>
                     <input type="password" id="confpassword" name="confpassword" >
+					
+					<p>*Le mot de passe doit contenir au moins 8 caractères, dont 1 lettre majuscule, 
+						1 lettre minuscule, 1 caractère spéciale et 1 chiffre. Ex: Bonjour@123</p>
 
                     <input type="submit" id="mybutton" value="S'inscrire" >
                     <?= $msgError; ?>          <!-- Le message sera affiché en cas derreur -->

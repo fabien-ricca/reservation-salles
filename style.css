@@ -79,6 +79,10 @@ main{
     background-color: rgba(107, 88, 50, 0.69);
 }
 
+#form-container p{
+    text-align: center;
+}
+
 input{
     width: 100%;
     margin-top: 2%;
@@ -197,7 +201,7 @@ footer{
 
 #git{
     font-size: 2.5rem;
-    padding-top: 0.1em;
+    padding: 0.1em;
     color: black;
     transition: 0.2s;
 }
@@ -214,7 +218,7 @@ footer{
 }
 
 #msgok{
-    font-size: 80%;
-    color: green;
+    font-size: 1.2em;
+    color: #16ce16;
     text-align: center;
 }
